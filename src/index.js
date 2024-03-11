@@ -34,7 +34,7 @@ class HashMap {
           }
         }
       }
-    } 
+    }
     if (this.bucket[index] !== undefined) {
       for (let i = 0; i < this.bucket[index].length; i += 1) {
         if (this.bucket[index][i][0] === key) {
@@ -47,12 +47,48 @@ class HashMap {
       }
     }
   }
+
+  get(key) {
+    for (let i = 0; i < this.bucket[this.hash(key)]?.length ?? 0; i += 1) {
+      if (this.bucket[this.hash(key)][i][0] === key)
+        return this.bucket[this.hash(key)][i][1];
+    }
+    return null;
+  }
+
+  has(key) {
+    for (let i = 0; i < this.bucket[this.hash(key)]?.length ?? 0; i += 1) {
+      if (this.bucket[this.hash(key)][i][0] === key) return true;
+    }
+    return false;
+  }
+
+  remove(key) {
+    for (let i = 0; i < this.bucket[this.hash(key)]?.length ?? 0; i += 1) {
+      if (this.bucket[this.hash(key)][i][0] === key){
+        this.bucket[this.hash(key)].splice(this.bucket[this.hash(key)].indexOf(this.bucket[this.hash(key)][i]), 1);
+      };
+    }
+    return false;
+  }
+
+  length(){
+    let size = 0;
+    for (let i = 0; i < this.bucket.length; i+=1) {
+      if(this.bucket[i] !== undefined)size += this.bucket[i].length;
+    }
+    return size;
+  }
+
+  clear(){
+    for (let i = 0; i < this.bucket.length; i+=1) {
+      this.bucket[i] = undefined
+    }
+  }
 }
 const a = new HashMap(16);
 a.set("shem", 18);
-a.set("shem", 15);
-a.set("sara", 11);
-a.set("sara", 12);
-console.log(a.bucket[a.hash("shem")][0]);
-console.log(a.bucket[a.hash("shem")][1]);
-console.log(a.bucket);
+a.set("sara", 10);
+console.log(a.has("sara"));
+// a.remove('shem');
+console.log(a.has('shem'));
