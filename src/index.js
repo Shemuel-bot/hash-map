@@ -65,30 +65,57 @@ class HashMap {
 
   remove(key) {
     for (let i = 0; i < this.bucket[this.hash(key)]?.length ?? 0; i += 1) {
-      if (this.bucket[this.hash(key)][i][0] === key){
-        this.bucket[this.hash(key)].splice(this.bucket[this.hash(key)].indexOf(this.bucket[this.hash(key)][i]), 1);
-      };
+      if (this.bucket[this.hash(key)][i][0] === key) {
+        this.bucket[this.hash(key)].splice(
+          this.bucket[this.hash(key)].indexOf(this.bucket[this.hash(key)][i]),
+          1,
+        );
+      }
     }
     return false;
   }
 
-  length(){
+  length() {
     let size = 0;
-    for (let i = 0; i < this.bucket.length; i+=1) {
-      if(this.bucket[i] !== undefined)size += this.bucket[i].length;
+    for (let i = 0; i < this.bucket.length; i += 1) {
+      if (this.bucket[i] !== undefined) size += this.bucket[i].length;
     }
     return size;
   }
 
-  clear(){
-    for (let i = 0; i < this.bucket.length; i+=1) {
-      this.bucket[i] = undefined
+  clear() {
+    for (let i = 0; i < this.bucket.length; i += 1) {
+      this.bucket[i] = undefined;
     }
   }
+
+  keys() {
+    const list = [];
+    for (let i = 0; i < this.bucket.length; i += 1) {
+      if (this.bucket[i] !== undefined) {
+        this.bucket[i].map((x) => list.push(x[0]));
+      }
+    }
+    return list;
+  }
+
+  values() {
+    const list = [];
+    for (let i = 0; i < this.bucket.length; i += 1) {
+      if (this.bucket[i] !== undefined) {
+        this.bucket[i].map((x) => list.push(x[1]));
+      }
+    }
+    return list;
+  }
+
+  entries() {
+    let list = [];
+    for (let i = 0; i < this.bucket.length; i += 1) {
+      if (this.bucket[i] !== undefined) {
+        list = list.concat(this.bucket[i]);
+      }
+    }
+    return list;
+  }
 }
-const a = new HashMap(16);
-a.set("shem", 18);
-a.set("sara", 10);
-console.log(a.has("sara"));
-// a.remove('shem');
-console.log(a.has('shem'));
